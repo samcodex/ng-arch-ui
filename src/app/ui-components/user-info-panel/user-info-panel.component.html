@@ -1,0 +1,14 @@
+<p>
+  This is user-info panel.
+</p>
+
+How to create the current panel
+<textarea>
+
+  // create new panel with UserInfoPanelComponent
+  const userWindow = ArchUi.createPanelWithContentComponent('User Info', UserInfoPanelComponent);
+
+  // append the new panel to the top element
+  this.ngArchUiService.renderElementOnTop(userWindow);
+
+</textarea>

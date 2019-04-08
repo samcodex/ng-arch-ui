@@ -1,0 +1,29 @@
+.div-user, .div-book {
+  width: 100px;
+  height: 60px;
+  cursor: pointer;
+  border: 1px solid lightblue;
+  margin: 30px;
+  text-align: center;
+  line-height: 60px;
+}
+
+textarea.installation {
+  height: 180px;
+}
+
+textarea {
+  margin-left: 20px;
+  width: 800px;
+  height: 280px;
+  background-color: lightblue;
+  font-size: 0.8em;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  border: 1px solid black;
+}
+
+.buttons {
+  position: absolute;
+  top: 100px;
+  right: 50px;
+}

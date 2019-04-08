@@ -1,0 +1,14 @@
+:host {
+  height: 26px;
+  width: 100%;
+  display: inline-block;
+  text-align: center;
+  font-size: 15px;
+  font-family: serif;
+  font-weight: 600;
+}
+
+:host > div:first-child {
+  height: 100%;
+  padding-top: 5px;
+}

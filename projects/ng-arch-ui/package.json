@@ -1,0 +1,21 @@
+{
+  "name": "ng-arch-ui",
+  "version": "0.0.1",
+  "description": "Angular window layout",
+  "keywords" :["Angular", "Window", "Layout"],
+  "author": "Samuel Xie<xie.samuel@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/samcodex/ng-arch-ui.git"
+  },
+  "homepage": "https://github.com/samcodex/ng-arch-ui/blob/master/README.md",
+  "bugs": {
+    "url": "https://github.com/samcodex/ng-arch-ui/issues"
+  },
+  "peerDependencies": {
+    "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
+    "@angular/core": "^6.0.0-rc.0 || ^6.0.0",
+    "angular2-draggable": "^2.2.2"
+  }
+}

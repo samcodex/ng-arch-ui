@@ -1,0 +1,21 @@
+<div ngDraggable [handle]="PanelHandler" [bounds]="PanelBounds"
+    [outOfBounds]="{right: true, left: true, bottom: true }" [inBounds]="true" (click)="onClick($event)"
+    (started)="onDrag($event)" (stopped)="onStopDrag($event)"
+    ngResizable [rzHandles]="'all'" (rzStart)="onResize($event)" (rzResizing)="onResizing($event)"
+    class="resizable-widget" >
+
+  <div class="arch-header-bar" [ngClass]="{'light-header': isMostTop, 'dark-header': !!!isMostTop}">
+    <arch-header-left></arch-header-left>
+    <div class="arch-header-center-wrapper" #PanelHandler>
+      <arch-header-center [title]="archUiElement.name"></arch-header-center>
+    </div>
+    <arch-header-right [buttons]="rightButtons"></arch-header-right>
+  </div>
+
+  <div class="arch-panel-main">
+    <ng-container #panel_main></ng-container>
+  </div>
+
+</div>
+
+<div class="bounds-wrapper" #PanelBounds></div>

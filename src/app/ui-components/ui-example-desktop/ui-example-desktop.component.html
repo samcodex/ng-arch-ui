@@ -1,0 +1,59 @@
+This is desktop component.
+
+<pre>
+  NgArchUI provides three major ui elements: Desktop, Window and Panel.
+    1. <b>Desktop</b> is the root of ui and cannot be removed.
+  2. <b>Window</b> contains any number of windows and panels. It can be added and removed.
+  3. <b>Panel</b> does not contain other elements. It can be added and removed.
+</pre>
+
+<textarea class="installation">
+  // installation
+  npm install ng-arch-ui --save
+
+  // import module in the AppModule
+  import { NgArchUiModule } from 'ng-arch-ui';
+
+  @NgModule({
+    ...
+    imports: [
+      NgArchUiModule
+    ]
+  })
+
+  // import angular2-draggable style in angular.json
+  "styles": [
+    ...
+    "node_modules/angular2-draggable/css/resizable.min.css"
+  ],
+</textarea>
+
+<textarea>
+
+  // the host template
+  <ng-arch-ui></ng-arch-ui>
+
+  // the host component
+  @Component({
+    ...
+    providers: [
+      NgArchUiService
+    ]
+  })
+
+  // inject require services, ComponentFactoryResolver and NgArchUiService
+  constructor(
+    private resolver: ComponentFactoryResolver,
+    private ngArchUiService: NgArchUiService
+    ... ) { ... }
+
+  // register resolver
+  this.ngArchUiService.registerResolver(this.resolver);
+
+  // assign desktop component
+  this.ngArchUiService.assignDesktopComponentClass(UiExampleDesktopComponent);
+</textarea>
+
+<div class="buttons">
+  <div class="div-user" (click)="clickUser($event)">User Window</div>
+  <div class="div-book" (click)="clickBook($event)">Book Window</div>

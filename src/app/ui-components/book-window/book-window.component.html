@@ -1,0 +1,19 @@
+<p>This is book window</p>
+{{ title }}
+
+<br>
+<hr>
+
+How to create the current window
+<textarea>
+
+  // create new window with BookWindowComponent
+  const userWindow = ArchUi.createWindowWithContentComponent('Book', BookWindowComponent);
+
+  // pass data and style to the new window,
+  // append the new window to the top element
+  const transferData = { title: 'Angular Tutorial'};
+  const options: NgArchUiElementOptions = { left: 'auto', right: '10%', width: '70%'};
+  this.ngArchUiService.renderElementOnTop(userWindow, transferData, options);
+
+</textarea>

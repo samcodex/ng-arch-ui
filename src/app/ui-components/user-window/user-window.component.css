@@ -1,0 +1,21 @@
+textarea {
+  margin-left: 20px;
+  width: 800px;
+  height: 160px;
+  background-color: lightblue;
+  font-size: 0.8em;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  border: 1px solid black;
+}
+
+.button {
+  cursor: pointer;
+  border: 1px solid gray;
+  width: 100px;
+  height: 50px;
+  top: 40px;
+  position: absolute;
+  right: 100px;
+  text-align: center;
+  vertical-align: middle;
+}

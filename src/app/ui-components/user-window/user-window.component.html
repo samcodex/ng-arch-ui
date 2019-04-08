@@ -1,0 +1,26 @@
+<p>
+  This is user window. It is movable, resizable and closable.
+</p>
+
+<p>UserName: {{ UserName }}</p>
+
+<p>Address</p>
+<p>City: {{ Address.City }}</p>
+<p>Country: {{ Address.Country }}</p>
+
+How to create the current window
+<textarea>
+  // create new window with UserWindowComponent
+  const userWindow = ArchUi.createWindowWithContentComponent('User', UserWindowComponent);
+
+  // pass the data to the new window
+  // the new window is appended to the top element which could be Desktop or Window
+  const transferData = { UserName: 'Selina', Address: { City: 'Toronto', Country: 'Canada'}};
+  const userWindow = ArchUi.createWindowWithContentComponent('User', UserWindowComponent);
+  this.ngArchUiService.renderElementOnTop(userWindow, transferData);
+
+</textarea>
+
+<div class="button" (click)="displayUserDetail($event)">
+  User Info Panel
+</div>
