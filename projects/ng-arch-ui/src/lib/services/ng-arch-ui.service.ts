@@ -1,5 +1,4 @@
 import { Injectable, ComponentFactoryResolver, ViewContainerRef, Type } from '@angular/core';
-import { forOwn } from 'lodash';
 
 import { ArchUiElement, ArchDesktop, ArchUiRoot, ArchUiContainer, ArchUiType } from '../models/ng-arch-ui-model';
 import { ArchUiComponent } from '../models/ng-arch-ui-meta';
@@ -116,8 +115,8 @@ export class NgArchUiService {
 
     // assign data to the content component
     if (transferData) {
-      forOwn(transferData, (value, key) => {
-        contentComponent[key] = value;
+      Object.keys(transferData).forEach((key) => {
+        contentComponent[key] = transferData[key];
       });
     }
 
