@@ -3,8 +3,9 @@
   "dest": "../../dist/ng-arch-ui",
   "lib": {
     "entryFile": "src/public_api.ts",
-    "externals": {
-      "moment": "angular2Draggable"
+    "umdModuleIds": {
+      "angular2-draggable": "angular2Draggable",
+      "lodash-es": "lodashEs"
     }
   }
 }

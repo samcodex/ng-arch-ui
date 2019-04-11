@@ -4,7 +4,7 @@
     ngResizable [rzHandles]="'all'" (rzStart)="onResize($event)" (rzResizing)="onResizing($event)"
     class="resizable-widget" >
 
-  <div class="arch-header-bar" [ngClass]="{'light-header': isMostTop, 'dark-header': !!!isMostTop}">
+  <div class="arch-header-bar">
     <arch-header-left></arch-header-left>
     <div class="arch-header-center-wrapper" #WindowHandler>
       <arch-header-center [title]="archUiElement.name"></arch-header-center>

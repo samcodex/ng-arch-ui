@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild, ViewContainerRef, Output, EventEmitter, ElementRef, Renderer2 } from '@angular/core';
+import { merge } from 'lodash-es';
 
-import { ArchUiComponent } from '../../../models/ng-arch-ui-meta';
+import { ArchUiComponent, ArchStyler, getUiElementStyler, ArchPartTheme, ArchUiType,
+  ThemeType, ArchPartType } from '../../../models/ng-arch-ui-meta';
 import { ArchUiElement, ArchUiContainer } from '../../../models/ng-arch-ui-model';
 import { ArchUiAction } from '../../../models/ng-arch-ui-action';
 import { NgArchUiService } from './../../../services/ng-arch-ui.service';
@@ -14,6 +16,7 @@ import { NgArchUiElementOptions } from '../../../models/ng-arch-ui-options';
 export class ArchPanelComponent implements OnInit, ArchUiComponent {
   archUiElement: ArchUiElement | ArchUiContainer;
   elementOptions: NgArchUiElementOptions;
+  partThemes: ArchPartTheme;
 
   @ViewChild('panel_main', { read: ViewContainerRef }) panelMainRef: ViewContainerRef;
 
@@ -23,15 +26,16 @@ export class ArchPanelComponent implements OnInit, ArchUiComponent {
 
   private isDragging = false;
   private isStoppingDrag = false;
+  private styler: ArchStyler;
+  private defaultTheme: ArchPartTheme;
 
   constructor(
     private el: ElementRef,
     private renderer: Renderer2,
     private ngArchUiService: NgArchUiService
-  ) { }
-
-  get isMostTop() {
-    return this.archUiElement && this.archUiElement.__isMostTop;
+  ) {
+    this.styler = getUiElementStyler(this.el, this.renderer);
+    this.defaultTheme = this.ngArchUiService.getTheme(ArchUiType.Panel);
   }
 
   ngOnInit() {
@@ -50,17 +54,8 @@ export class ArchPanelComponent implements OnInit, ArchUiComponent {
     closeButton.handler = this.close;
     this.rightButtons.push(closeButton);
 
-    if (this.elementOptions) {
-      const options = this.elementOptions;
-      const keys = ['top', 'left', 'width', 'height', 'right', 'bottom'];
-      const querySelector = this.el.nativeElement.querySelector('div:first-child');
-
-      keys.forEach(key => {
-        if (options[key]) {
-          this.renderer.setStyle(querySelector, key, options[key]);
-        }
-      });
-    }
+    this.styler.setViewPosition('div:first-child', this.elementOptions);
+    this.setHeaderStyle();
   }
 
   getMainContainerRef(): ViewContainerRef {
@@ -114,6 +109,14 @@ export class ArchPanelComponent implements OnInit, ArchUiComponent {
 
   private select() {
     this.ngArchUiService.__moveUiElementOnTop(this.archUiElement);
+  }
+
+  setHeaderStyle() {
+    const style = merge({}, this.defaultTheme, this.partThemes);
+    this.archUiElement.getTopest().subscribe(topest => {
+      const themeType = topest ? ThemeType.Focus : ThemeType.FocusOut;
+      this.styler.setElementStyle('.arch-header-bar', style, ArchPartType.Header, themeType);
+    });
   }
 }
 

@@ -52,6 +52,22 @@ This is desktop component.
 
   // assign desktop component
   this.ngArchUiService.assignDesktopComponentClass(UiExampleDesktopComponent);
+
+  // customize the default theme
+  const theme: ArchUiTheme = {
+    [ ArchUiType.Window]: {
+      [ArchPartType.Header]: {
+        [ ThemeType.Focus ]: {
+          color: 'black',
+          background_color: 'gray'
+        },
+        [ ThemeType.FocusOut ]: {
+          color: 'white',
+        }
+      }
+    }
+  };
+  this.ngArchUiService.changeTheme(theme);
 </textarea>
 
 <div class="buttons">

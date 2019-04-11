@@ -4,8 +4,20 @@
 <br>
 <hr>
 
-How to create the current window<br>
+To create the current window<br>
 <textarea>
+  // customized book window theme
+  const bookTheme: ArchPartTheme = {
+    [ ArchPartType.Header ]: {
+      [ ThemeType.Focus]: {
+        color: '#4400ff',
+        background_color: '#f95cb2'
+      },
+      [ ThemeType.FocusOut ]: {
+        background_color: '#f9bede'
+      }
+    }
+  };
 
   // create new window with BookWindowComponent
   const userWindow = ArchUi.createWindowWithContentComponent('Book', BookWindowComponent);
@@ -14,6 +26,6 @@ How to create the current window<br>
   // append the new window to the top element
   const transferData = { title: 'Angular Tutorial'};
   const options: NgArchUiElementOptions = { left: 'auto', right: '10%', width: '70%'};
-  this.ngArchUiService.renderElementOnTop(userWindow, transferData, options);
+  this.ngArchUiService.renderElementOnTop(userWindow, transferData, options, bookTheme);
 
 </textarea>

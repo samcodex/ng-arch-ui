@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewContainerRef, ViewChild, ComponentFactoryResolver, OnDestroy } from '@angular/core';
 
 import { NgArchUiService } from './../../services/ng-arch-ui.service';
-import { ArchUiComponent } from '../../models/ng-arch-ui-meta';
+import { ArchUiComponent, ArchPartTheme } from '../../models/ng-arch-ui-meta';
 import { ArchUiElement } from '../../models/ng-arch-ui-model';
 import { NgArchUiElementOptions } from '../../models/ng-arch-ui-options';
 
@@ -13,6 +13,7 @@ import { NgArchUiElementOptions } from '../../models/ng-arch-ui-options';
 export class NgArchUiComponent implements OnInit, OnDestroy, ArchUiComponent {
   archUiElement: ArchUiElement;
   elementOptions: NgArchUiElementOptions;
+  partThemes: ArchPartTheme;
 
   @ViewChild('ng_arch_ui_children', { read: ViewContainerRef }) uiChildrenRef: ViewContainerRef;
 

@@ -1,9 +1,11 @@
 import { Injectable, ComponentFactoryResolver, ViewContainerRef, Type } from '@angular/core';
+import { cloneDeep, merge } from 'lodash-es';
 
-import { ArchUiElement, ArchDesktop, ArchUiRoot, ArchUiContainer, ArchUiType } from '../models/ng-arch-ui-model';
-import { ArchUiComponent } from '../models/ng-arch-ui-meta';
+import { ArchUiElement, ArchDesktop, ArchUiRoot, ArchUiContainer } from '../models/ng-arch-ui-model';
+import { ArchUiComponent, ArchUiType, ArchPartTheme, ArchUiTheme } from '../models/ng-arch-ui-meta';
 import { NgArchUiContentComponent } from '../ng-arch-ui.interface';
 import { NgArchUiOptions, NgArchUiElementOptions } from '../models/ng-arch-ui-options';
+import { archUiThemeConfig } from './../models/ng-arch-ui-options';
 
 const archUiTypeComponentMapping: { [key in ArchUiType]?: string } = {
   [ ArchUiType.UiRoot ]: 'NgArchUiComponent',
@@ -23,6 +25,7 @@ export class NgArchUiService {
 
   private theMostTopWindow: ArchUiContainer;
   private theMostTopElement: ArchUiElement;
+  private themes = cloneDeep(archUiThemeConfig);
 
   private options: NgArchUiOptions = {
     alwaysRefresh: true
@@ -70,6 +73,22 @@ export class NgArchUiService {
     this.options = options;
   }
 
+  changeTheme(themes: ArchUiTheme) {
+    merge(this.themes, themes);
+  }
+
+  changeWindowTheme(theme: ArchPartTheme) {
+    merge(this.themes[ArchUiType.Window], theme);
+  }
+
+  changePanelTheme(theme: ArchPartTheme) {
+    merge(this.themes[ArchUiType.Panel], theme);
+  }
+
+  getTheme(uiType: ArchUiType): ArchPartTheme {
+    return this.themes[uiType];
+  }
+
   registerResolver(resolver: ComponentFactoryResolver) {
     this.contentResolver = resolver;
   }
@@ -78,7 +97,8 @@ export class NgArchUiService {
     this.uiRoot.desktop.traversal(this, this.renderArchUiElement.bind(this));
   }
 
-  renderArchUiElement(uiElement: ArchUiElement, transferData: object = null, elementOptions?: NgArchUiElementOptions) {
+  renderArchUiElement(uiElement: ArchUiElement, transferData: object = null,
+      uiElementOptions?: NgArchUiElementOptions, uiElementTheme?: ArchPartTheme) {
     if (!this.validateService()) {
       return;
     }
@@ -95,8 +115,12 @@ export class NgArchUiService {
 
     uiElement.__assignContextViewContainerRef(contextComponent.getChildrenContainerRef());
     contextComponent.archUiElement = uiElement;
-    if (elementOptions) {
-      contextComponent.elementOptions = elementOptions;
+    if (uiElementOptions) {
+      contextComponent.elementOptions = uiElementOptions;
+    }
+    if (uiElementTheme) {
+      contextComponent.partThemes = cloneDeep(this.getTheme(uiType));
+      merge(contextComponent.partThemes, uiElementTheme);
     }
 
     // render content
@@ -137,18 +161,20 @@ export class NgArchUiService {
     uiElement.assignContentComponentRef(componentRef);
   }
 
-  renderElementOnTop(uiElement: ArchUiElement, transferData: object = null, elementOptions?: NgArchUiElementOptions) {
+  renderElementOnTop(uiElement: ArchUiElement, transferData: object = null,
+      elementOptions?: NgArchUiElementOptions, uiElementTheme?: ArchPartTheme) {
     this.appendUiElementTo(uiElement);
     this.__moveUiElementOnTop(uiElement);
 
-    this.renderArchUiElement(uiElement, transferData, elementOptions);
+    this.renderArchUiElement(uiElement, transferData, elementOptions, uiElementTheme);
   }
 
-  renderElementOnDesktop(uiElement: ArchUiElement, transferData: object = null, elementOptions?: NgArchUiElementOptions) {
+  renderElementOnDesktop(uiElement: ArchUiElement, transferData: object = null,
+      elementOptions?: NgArchUiElementOptions, uiElementTheme?: ArchPartTheme) {
     this.appendUiElementToDesktop(uiElement);
     this.__moveUiElementOnTop(uiElement);
 
-    this.renderArchUiElement(uiElement, transferData, elementOptions);
+    this.renderArchUiElement(uiElement, transferData, elementOptions, uiElementTheme);
   }
 
   __closeWindow(uiElement: ArchUiElement) {
@@ -190,29 +216,41 @@ export class NgArchUiService {
     this.uiRoot = new ArchUiRoot('Ng Arch Ui');
   }
 
+  // TODO
   private updateTheMostTops(uiElement: ArchUiElement) {
-    if (uiElement instanceof ArchUiContainer) {
-      if (this.theMostTopWindow) {
-        this.theMostTopWindow.__isMostTop = false;
-      }
-      if (this.theMostTopElement) {
-        this.theMostTopElement.__isMostTop = false;
-      }
-
-      uiElement.__isMostTop = true;
-
-      this.theMostTopWindow = this.theMostTopElement = uiElement;
-    } else if (uiElement instanceof ArchUiElement) {
-      const parent = uiElement.__parent;
-      if (this.theMostTopWindow === parent) {
-        if (this.theMostTopElement) {
-          this.theMostTopElement.__isMostTop = false;
-        }
-        uiElement.__isMostTop = true;
-
-        this.theMostTopElement = uiElement;
-      }
+    if (this.theMostTopElement) {
+      this.theMostTopElement.changeTopest(false);
     }
+    uiElement.changeTopest(true);
+
+    if (uiElement instanceof ArchUiContainer) {
+      this.theMostTopWindow = this.theMostTopElement = uiElement;
+    } else {
+      this.theMostTopElement = uiElement;
+    }
+
+    // if (uiElement instanceof ArchUiContainer) {
+    //   if (this.theMostTopWindow) {
+    //     this.theMostTopWindow.chnageTopest(false);
+    //   }
+    //   if (this.theMostTopElement) {
+    //     this.theMostTopElement.chnageTopest(false);
+    //   }
+
+    //   uiElement.chnageTopest(true);
+
+    //   this.theMostTopWindow = this.theMostTopElement = uiElement;
+    // } else if (uiElement instanceof ArchUiElement) {
+    //   const parent = uiElement.__parent;
+    //   if (this.theMostTopWindow === parent) {
+    //     if (this.theMostTopElement) {
+    //       this.theMostTopElement.chnageTopest(false);
+    //     }
+    //     uiElement.chnageTopest(true);
+
+    //     this.theMostTopElement = uiElement;
+    //   }
+    // }
   }
 }
 

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
 
 import { NgArchUiService } from './../../../services/ng-arch-ui.service';
-import { ArchUiComponent } from '../../../models/ng-arch-ui-meta';
+import { ArchUiComponent, ArchPartTheme } from '../../../models/ng-arch-ui-meta';
 import { ArchUiElement, ArchUiContainer } from '../../../models/ng-arch-ui-model';
 import { NgArchUiElementOptions } from '../../../models/ng-arch-ui-options';
 
@@ -13,6 +13,7 @@ import { NgArchUiElementOptions } from '../../../models/ng-arch-ui-options';
 export class ArchDesktopComponent implements OnInit, ArchUiComponent {
   archUiElement: ArchUiElement | ArchUiContainer;
   elementOptions: NgArchUiElementOptions;
+  partThemes: ArchPartTheme;
 
   @ViewChild('desktop_main', { read: ViewContainerRef }) desktopMainRef: ViewContainerRef;
   @ViewChild('desktop_children', { read: ViewContainerRef }) desktopChildrenRef: ViewContainerRef;

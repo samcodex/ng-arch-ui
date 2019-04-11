@@ -1,6 +1,21 @@
 import { UiExampleDesktopComponent } from './ui-components/ui-example-desktop/ui-example-desktop.component';
 import { Component, ComponentFactoryResolver, OnInit } from '@angular/core';
-import { NgArchUiService } from 'ng-arch-ui';
+
+import { NgArchUiService, ArchUiTheme, ArchUiType, ArchPartType, ThemeType } from 'ng-arch-ui';
+
+const theme: ArchUiTheme = {
+  [ ArchUiType.Window]: {
+    [ArchPartType.Header]: {
+      [ ThemeType.Focus ]: {
+        color: 'black',
+        background_color: 'gray'
+      },
+      [ ThemeType.FocusOut ]: {
+        color: 'white',
+      }
+    }
+  }
+};
 
 @Component({
   selector: 'app-root',
@@ -22,5 +37,8 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.ngArchUiService.registerResolver(this.resolver);
     this.ngArchUiService.assignDesktopComponentClass(UiExampleDesktopComponent);
+
+    // customize the default theme
+    // this.ngArchUiService.changeTheme(theme);
   }
 }

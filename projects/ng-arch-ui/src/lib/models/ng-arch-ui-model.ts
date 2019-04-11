@@ -1,17 +1,7 @@
 import { ViewContainerRef, Type, ComponentRef } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 
-import { ArchUiComponent } from './ng-arch-ui-meta';
-
-export enum ArchUiType {
-  UiRoot = 'uiRoot',
-  Desktop = 'desktop',
-  Window = 'window',
-  Panel = 'panel',
-  Header = 'header',
-  Footer = 'footer',
-  Action = 'action',
-  Status = 'status'
-}
+import { ArchUiComponent, ArchUiType } from './ng-arch-ui-meta';
 
 /**
  * context: means NgArchUi
@@ -20,7 +10,7 @@ export enum ArchUiType {
 export abstract class ArchUiElement {
   name: string;
   __parent?: ArchUiContainer;
-  __isMostTop = true;
+  __isTopest = new BehaviorSubject(true);
 
   __uiType: ArchUiType;
   private _contentComponentClass: Type<any>;
@@ -60,6 +50,14 @@ export abstract class ArchUiElement {
     const children = parent.__children;
     const index = children.indexOf(this);
     return index > -1 && index === children.length - 1;
+  }
+
+  changeTopest(flag: boolean) {
+    this.__isTopest.next(flag);
+  }
+
+  getTopest(): Observable<boolean> {
+    return this.__isTopest.asObservable();
   }
 
   assignContentComponentClass(component: Type<any>) {
@@ -111,6 +109,7 @@ export abstract class ArchUiElement {
       children.push(element);
     }
 
+    // TODO
     // maintain HTML
     // move the element(html DOM) to the last DOM inside the parent
     const contextElement = this._contextComponentRef.location.nativeElement;

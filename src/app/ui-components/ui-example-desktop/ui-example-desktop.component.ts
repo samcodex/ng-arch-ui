@@ -1,8 +1,20 @@
 import { Component, OnInit } from '@angular/core';
+import { NgArchUiService, ArchUi, NgArchUiElementOptions, ArchPartTheme, ArchPartType, ThemeType } from 'ng-arch-ui';
 
 import { UserWindowComponent } from './../user-window/user-window.component';
-import { NgArchUiService, ArchUi, NgArchUiElementOptions } from 'ng-arch-ui';
 import { BookWindowComponent } from '../book-window/book-window.component';
+
+const bookTheme: ArchPartTheme = {
+  [ ArchPartType.Header ]: {
+    [ ThemeType.Focus]: {
+      color: '#4400ff',
+      background_color: '#f95cb2'
+    },
+    [ ThemeType.FocusOut ]: {
+      background_color: '#f9bede'
+    }
+  }
+};
 
 @Component({
   selector: 'app-ui-example-desktop',
@@ -33,6 +45,6 @@ export class UiExampleDesktopComponent implements OnInit {
     const options: NgArchUiElementOptions = { left: 'auto', right: '10%', width: '70%'};
 
     const userWindow = ArchUi.createWindowWithContentComponent('Book', BookWindowComponent);
-    this.ngArchUiService.renderElementOnTop(userWindow, transferData, options);
+    this.ngArchUiService.renderElementOnTop(userWindow, transferData, options, bookTheme);
   }
 }
