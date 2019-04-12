@@ -9,6 +9,8 @@ import { ArchUiComponent, ArchUiType } from './ng-arch-ui-meta';
  */
 export abstract class ArchUiElement {
   name: string;
+  __zIndex: number;
+
   __parent?: ArchUiContainer;
   __isTopest = new BehaviorSubject(true);
 
@@ -80,10 +82,6 @@ export abstract class ArchUiElement {
     this._contextComponentRef = ref;
   }
 
-  __appendTo(parent: ArchUiContainer) {
-    parent.__appendChildUiElement(this);
-  }
-
   __getParentViewContainerRef(): ViewContainerRef {
     return this.__parent._contextViewContainerRef;
   }
@@ -122,17 +120,21 @@ export abstract class ArchUiElement {
 }
 
 export abstract class ArchUiContainer extends ArchUiElement {
-  __parent?: ArchUiContainer;
   __children?: ArchUiElement[];
+  __lastChildIndex: number;
 
   constructor(name: string, uiType: ArchUiType) {
     super(name, uiType);
     this.__children = [];
+    this.__lastChildIndex = 0;
   }
 
   __appendChildUiElement(uiElement: ArchUiElement) {
-    this.__children.push(uiElement);
+    uiElement.__zIndex = this.__lastChildIndex + 1;
     uiElement.__parent = this;
+    ++this.__lastChildIndex;
+
+    this.__children.push(uiElement);
   }
 
   traversal(that: any, callback: Function) {

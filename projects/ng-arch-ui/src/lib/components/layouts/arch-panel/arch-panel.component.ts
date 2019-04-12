@@ -1,22 +1,23 @@
 import { Component, OnInit, ViewChild, ViewContainerRef, Output, EventEmitter, ElementRef, Renderer2 } from '@angular/core';
-import { merge } from 'lodash-es';
 
-import { ArchUiComponent, ArchStyler, getUiElementStyler, ArchPartTheme, ArchUiType,
-  ThemeType, ArchPartType } from '../../../models/ng-arch-ui-meta';
+import { ArchUiComponent, ArchPartTheme, ArchUiType } from '../../../models/ng-arch-ui-meta';
 import { ArchUiElement, ArchUiContainer } from '../../../models/ng-arch-ui-model';
 import { ArchUiAction } from '../../../models/ng-arch-ui-action';
 import { NgArchUiService } from './../../../services/ng-arch-ui.service';
 import { NgArchUiElementOptions } from '../../../models/ng-arch-ui-options';
+import { ArchGenericLayout, applyMixins, ArchLayoutMixin } from '../arch-layout-mixin';
 
 @Component({
   selector: 'arch-panel',
   templateUrl: './arch-panel.component.html',
   styleUrls: ['./arch-panel.component.scss']
 })
-export class ArchPanelComponent implements OnInit, ArchUiComponent {
+export class ArchPanelComponent implements OnInit, ArchUiComponent, ArchGenericLayout {
+  uiType = ArchUiType.Panel;
   archUiElement: ArchUiElement | ArchUiContainer;
   elementOptions: NgArchUiElementOptions;
   partThemes: ArchPartTheme;
+  defaultTheme: ArchPartTheme;
 
   @ViewChild('panel_main', { read: ViewContainerRef }) panelMainRef: ViewContainerRef;
 
@@ -26,16 +27,18 @@ export class ArchPanelComponent implements OnInit, ArchUiComponent {
 
   private isDragging = false;
   private isStoppingDrag = false;
-  private styler: ArchStyler;
-  private defaultTheme: ArchPartTheme;
+
+  getDefaultTheme: () => void;
+  setHeaderStyle: () => void;
+  setViewStyle: () => void;
+  setViewPosition: (selector?: string) => void;
 
   constructor(
     private el: ElementRef,
     private renderer: Renderer2,
     private ngArchUiService: NgArchUiService
   ) {
-    this.styler = getUiElementStyler(this.el, this.renderer);
-    this.defaultTheme = this.ngArchUiService.getTheme(ArchUiType.Panel);
+    this.getDefaultTheme();
   }
 
   ngOnInit() {
@@ -54,7 +57,8 @@ export class ArchPanelComponent implements OnInit, ArchUiComponent {
     closeButton.handler = this.close;
     this.rightButtons.push(closeButton);
 
-    this.styler.setViewPosition('div:first-child', this.elementOptions);
+    this.setViewPosition();
+    this.setViewStyle();
     this.setHeaderStyle();
   }
 
@@ -110,13 +114,6 @@ export class ArchPanelComponent implements OnInit, ArchUiComponent {
   private select() {
     this.ngArchUiService.__moveUiElementOnTop(this.archUiElement);
   }
-
-  setHeaderStyle() {
-    const style = merge({}, this.defaultTheme, this.partThemes);
-    this.archUiElement.getTopest().subscribe(topest => {
-      const themeType = topest ? ThemeType.Focus : ThemeType.FocusOut;
-      this.styler.setElementStyle('.arch-header-bar', style, ArchPartType.Header, themeType);
-    });
-  }
 }
 
+applyMixins(ArchPanelComponent, [ ArchLayoutMixin ]);

@@ -58,11 +58,12 @@ export class NgArchUiService {
   }
 
   appendUiElementTo(uiElement: ArchUiElement, parent?: ArchUiContainer) {
-    uiElement.__appendTo(parent || this.theMostTopWindow);
+    const container = parent || this.theMostTopWindow;
+    container.__appendChildUiElement(uiElement);
   }
 
   appendUiElementToDesktop(uiElement: ArchUiElement) {
-    uiElement.__appendTo(this.archDesktop);
+    this.archDesktop.__appendChildUiElement(uiElement);
   }
 
   assignDesktopComponentClass(clazz: Type<any>) {
