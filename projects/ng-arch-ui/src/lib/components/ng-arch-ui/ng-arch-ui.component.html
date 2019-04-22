@@ -1,3 +1,16 @@
-<div (click)="onClick($event)">
+<div #ng_arch_ui_main class="ui-main" (click)="onClick($event)">
   <ng-container #ng_arch_ui_children></ng-container>
 </div>
+
+<!-- <div #ng_arch_ui_dock class="ui-dock" *ngIf="hasFixDock else instead_of_dock_menu">
+  <ng-arch-dock></ng-arch-dock>
+</div> -->
+
+<!-- <ng-template #instead_of_dock_menu> -->
+  <!-- <div class="flow-menu-dock" ngDraggable
+      [bounds]="ng_arch_ui_main" [inBounds]="true">
+    <button class="icon-button flow-menu"></button>
+
+    <ng-arch-dropdown></ng-arch-dropdown>
+  </div> -->
+<!-- </ng-template> -->

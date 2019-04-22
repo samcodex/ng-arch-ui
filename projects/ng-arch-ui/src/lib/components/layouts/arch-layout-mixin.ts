@@ -3,7 +3,7 @@ import { merge } from 'lodash-es';
 
 import { ArchPartTheme, ArchPartType, ThemeType, ArchUiCss, ArchUiType } from './../../models/ng-arch-ui-meta';
 import { ArchUiElement, ArchUiContainer } from '../../models/ng-arch-ui-model';
-import { NgArchUiElementOptions } from 'ng-arch-ui/public_api';
+import { NgArchUiElementOptions } from '../../models/ng-arch-ui-options';
 import { NgArchUiService } from '../../services/ng-arch-ui.service';
 
 

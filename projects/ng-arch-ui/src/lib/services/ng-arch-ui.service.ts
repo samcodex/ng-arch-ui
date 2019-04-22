@@ -6,6 +6,7 @@ import { ArchUiComponent, ArchUiType, ArchPartTheme, ArchUiTheme } from '../mode
 import { NgArchUiContentComponent } from '../ng-arch-ui.interface';
 import { NgArchUiOptions, NgArchUiElementOptions } from '../models/ng-arch-ui-options';
 import { archUiThemeConfig } from './../models/ng-arch-ui-options';
+import { ArchUiDock } from '../models/ng-arch-ui-dock';
 
 const archUiTypeComponentMapping: { [key in ArchUiType]?: string } = {
   [ ArchUiType.UiRoot ]: 'NgArchUiComponent',
@@ -18,7 +19,7 @@ const archUiTypeComponentMapping: { [key in ArchUiType]?: string } = {
   providedIn: 'root'
 })
 export class NgArchUiService {
-
+  private uiDock: ArchUiDock;
   private uiRoot: ArchUiRoot;
   private contentResolver: ComponentFactoryResolver;
   private contextResolver: ComponentFactoryResolver;
@@ -33,11 +34,16 @@ export class NgArchUiService {
 
   constructor(
   ) {
+    this.uiDock = new ArchUiDock();
     this.createUiRoot();
   }
 
   get archDesktop(): ArchDesktop {
     return this.uiRoot.desktop;
+  }
+
+  get archUiDock(): ArchUiDock {
+    return this.uiDock;
   }
 
   __init(contextResolver: ComponentFactoryResolver, contextRootViewContainerRef: ViewContainerRef) {
@@ -60,10 +66,16 @@ export class NgArchUiService {
   appendUiElementTo(uiElement: ArchUiElement, parent?: ArchUiContainer) {
     const container = parent || this.theMostTopWindow;
     container.__appendChildUiElement(uiElement);
+
+    if (container === this.archDesktop) {
+      this.uiDock.appendUiElement(uiElement);
+    }
   }
 
   appendUiElementToDesktop(uiElement: ArchUiElement) {
     this.archDesktop.__appendChildUiElement(uiElement);
+
+    this.uiDock.appendUiElement(uiElement);
   }
 
   assignDesktopComponentClass(clazz: Type<any>) {

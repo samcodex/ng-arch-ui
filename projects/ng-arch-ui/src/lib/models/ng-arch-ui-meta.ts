@@ -2,6 +2,12 @@ import { ViewContainerRef, EventEmitter, ElementRef, Renderer2 } from '@angular/
 import { ArchUiElement, ArchUiContainer } from './ng-arch-ui-model';
 import { NgArchUiElementOptions } from './ng-arch-ui-options';
 
+export enum UiLocation {
+  Top = 'Top',
+  Bottom = 'Bottom',
+  Flow = 'Flow'
+}
+
 export interface ArchUiComponent {
   uiType: ArchUiType;
   archUiElement: ArchUiElement | ArchUiContainer;

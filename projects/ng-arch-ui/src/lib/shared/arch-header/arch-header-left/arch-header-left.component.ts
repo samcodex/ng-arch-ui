@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'arch-header-left',
+  selector: 'ng-arch-header-left',
   templateUrl: './arch-header-left.component.html',
   styleUrls: ['./arch-header-left.component.scss']
 })

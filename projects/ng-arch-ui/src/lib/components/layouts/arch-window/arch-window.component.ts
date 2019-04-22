@@ -8,7 +8,6 @@ import { NgArchUiElementOptions } from '../../../models/ng-arch-ui-options';
 import { applyMixins, ArchGenericLayout, ArchLayoutMixin } from '../arch-layout-mixin';
 
 @Component({
-  selector: 'arch-window',
   templateUrl: './arch-window.component.html',
   styleUrls: ['./arch-window.component.scss']
 })
@@ -43,17 +42,17 @@ export class ArchWindowComponent implements OnInit, ArchUiComponent, ArchGeneric
   }
 
   ngOnInit() {
-    // const minimizeButton = ArchUiAction.createMinimizeButton();
+    // const minimizeButton = ArchUiAction.createMinimizeButton(this.archUiElement);
     // minimizeButton.that = this;
     // minimizeButton.handler = this.close;
     // this.rightButtons.push(minimizeButton);
 
-    // const maximizeButton = ArchUiAction.createMaximizeButton();
+    // const maximizeButton = ArchUiAction.createMaximizeButton(this.archUiElement);
     // maximizeButton.that = this;
     // maximizeButton.handler = this.close;
     // this.rightButtons.push(maximizeButton);
 
-    const closeButton = ArchUiAction.createCloseButton();
+    const closeButton = ArchUiAction.createCloseButton(this.archUiElement);
     closeButton.that = this;
     closeButton.handler = this.close;
     this.rightButtons.push(closeButton);

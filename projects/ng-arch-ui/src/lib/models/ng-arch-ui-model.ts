@@ -2,6 +2,7 @@ import { ViewContainerRef, Type, ComponentRef } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import { ArchUiComponent, ArchUiType } from './ng-arch-ui-meta';
+import { ArchUiAction } from './ng-arch-ui-action';
 
 /**
  * context: means NgArchUi
@@ -9,12 +10,13 @@ import { ArchUiComponent, ArchUiType } from './ng-arch-ui-meta';
  */
 export abstract class ArchUiElement {
   name: string;
+  __uiType: ArchUiType;
   __zIndex: number;
 
   __parent?: ArchUiContainer;
   __isTopest = new BehaviorSubject(true);
+  __actions: ArchUiAction[];
 
-  __uiType: ArchUiType;
   private _contentComponentClass: Type<any>;
 
   private _contextViewContainerRef: ViewContainerRef;
@@ -56,6 +58,14 @@ export abstract class ArchUiElement {
 
   changeTopest(flag: boolean) {
     this.__isTopest.next(flag);
+  }
+
+  appendActions(action: ArchUiAction) {
+    action.owner = this;
+    if (!this.__actions) {
+      this.__actions = [];
+    }
+    this.__actions.push(action);
   }
 
   getTopest(): Observable<boolean> {

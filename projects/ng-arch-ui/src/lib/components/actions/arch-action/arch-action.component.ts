@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'arch-action',
+  selector: 'ng-arch-action',
   templateUrl: './arch-action.component.html',
   styleUrls: ['./arch-action.component.scss']
 })

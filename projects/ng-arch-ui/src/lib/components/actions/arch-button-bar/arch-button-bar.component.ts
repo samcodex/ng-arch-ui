@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ArchUiAction, ArchUiActionAct } from '../../../models/ng-arch-ui-action';
 
 @Component({
-  selector: 'arch-button-bar',
+  selector: 'ng-arch-button-bar',
   templateUrl: './arch-button-bar.component.html',
   styleUrls: ['./arch-button-bar.component.scss']
 })

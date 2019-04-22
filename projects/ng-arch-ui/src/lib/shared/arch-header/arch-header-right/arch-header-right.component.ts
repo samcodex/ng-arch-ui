@@ -2,7 +2,7 @@ import { ArchUiAction } from '../../../models/ng-arch-ui-action';
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
-  selector: 'arch-header-right',
+  selector: 'ng-arch-header-right',
   templateUrl: './arch-header-right.component.html',
   styleUrls: ['./arch-header-right.component.scss']
 })

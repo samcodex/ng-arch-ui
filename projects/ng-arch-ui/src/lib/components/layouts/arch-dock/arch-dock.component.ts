@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'arch-dock',
+  selector: 'ng-arch-dock',
   templateUrl: './arch-dock.component.html',
   styleUrls: ['./arch-dock.component.scss']
 })

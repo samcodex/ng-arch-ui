@@ -5,11 +5,11 @@
     class="resizable-widget" >
 
   <div class="arch-header-bar">
-    <arch-header-left></arch-header-left>
+    <ng-arch-header-left></ng-arch-header-left>
     <div class="arch-header-center-wrapper" #WindowHandler>
-      <arch-header-center [title]="archUiElement.name"></arch-header-center>
+      <ng-arch-header-center [title]="archUiElement.name"></ng-arch-header-center>
     </div>
-    <arch-header-right [buttons]="rightButtons"></arch-header-right>
+    <ng-arch-header-right [buttons]="rightButtons"></ng-arch-header-right>
   </div>
 
   <div class="arch-window-main">

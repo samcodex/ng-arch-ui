@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'arch-footer',
+  selector: 'ng-arch-footer',
   templateUrl: './arch-footer.component.html',
   styleUrls: ['./arch-footer.component.scss']
 })

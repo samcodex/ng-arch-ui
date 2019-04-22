@@ -6,7 +6,6 @@ import { ArchUiElement, ArchUiContainer } from '../../../models/ng-arch-ui-model
 import { NgArchUiElementOptions } from '../../../models/ng-arch-ui-options';
 
 @Component({
-  selector: 'arch-desktop',
   templateUrl: './arch-desktop.component.html',
   styleUrls: ['./arch-desktop.component.scss']
 })
