@@ -1,4 +1,4 @@
-import { ViewContainerRef, EventEmitter, ElementRef, Renderer2 } from '@angular/core';
+import { ViewContainerRef, EventEmitter } from '@angular/core';
 import { ArchUiElement, ArchUiContainer } from './ng-arch-ui-model';
 import { NgArchUiElementOptions } from './ng-arch-ui-options';
 

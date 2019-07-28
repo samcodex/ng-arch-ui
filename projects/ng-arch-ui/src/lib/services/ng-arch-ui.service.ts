@@ -1,23 +1,21 @@
-import { Injectable, ComponentFactoryResolver, ViewContainerRef, Type } from '@angular/core';
+import { Injectable, ComponentFactoryResolver, ViewContainerRef, Type, Inject } from '@angular/core';
 import { cloneDeep, merge } from 'lodash-es';
 
 import { ArchUiElement, ArchDesktop, ArchUiRoot, ArchUiContainer } from '../models/ng-arch-ui-model';
 import { ArchUiComponent, ArchUiType, ArchPartTheme, ArchUiTheme } from '../models/ng-arch-ui-meta';
 import { NgArchUiContentComponent } from '../ng-arch-ui.interface';
-import { NgArchUiOptions, NgArchUiElementOptions } from '../models/ng-arch-ui-options';
+import { NgArchUiOptions, NgArchUiElementOptions, NgArchUiComponentsToken, ComponentMapDefinition } from '../models/ng-arch-ui-options';
 import { archUiThemeConfig } from './../models/ng-arch-ui-options';
 import { ArchUiDock } from '../models/ng-arch-ui-dock';
 
-const archUiTypeComponentMapping: { [key in ArchUiType]?: string } = {
-  [ ArchUiType.UiRoot ]: 'NgArchUiComponent',
-  [ ArchUiType.Desktop ]: 'ArchDesktopComponent',
-  [ ArchUiType.Window ]: 'ArchWindowComponent',
-  [ ArchUiType.Panel ]: 'ArchPanelComponent',
-};
+// const archUiTypeComponentMapping: { [key in ArchUiType]?: string } = {
+//   [ ArchUiType.UiRoot ]: 'NgArchUiComponent',
+//   [ ArchUiType.Desktop ]: 'ArchDesktopComponent',
+//   [ ArchUiType.Window ]: 'ArchWindowComponent',
+//   [ ArchUiType.Panel ]: 'ArchPanelComponent',
+// };
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class NgArchUiService {
   private uiDock: ArchUiDock;
   private uiRoot: ArchUiRoot;
@@ -33,6 +31,7 @@ export class NgArchUiService {
   };
 
   constructor(
+    @Inject(NgArchUiComponentsToken) private mapContextComponent: ComponentMapDefinition
   ) {
     this.uiDock = new ArchUiDock();
     this.createUiRoot();
@@ -119,8 +118,10 @@ export class NgArchUiService {
     // render context
     const uiType = uiElement.__uiType;
 
-    const contextComponentName = archUiTypeComponentMapping[uiType];
-    const contextFactory = getComponentFactoryByName(this.contextResolver, contextComponentName);
+    // const contextComponentName = archUiTypeComponentMapping[uiType];
+    // const contextFactory = getComponentFactoryByName(this.contextResolver, contextComponentName);
+    const contextClass = this.mapContextComponent[uiType];
+    const contextFactory = this.contextResolver.resolveComponentFactory(contextClass);
 
     const contextViewContainerRef = uiElement.__getParentViewContainerRef();
     const contextComponentRef = contextViewContainerRef.createComponent(contextFactory);
@@ -144,7 +145,7 @@ export class NgArchUiService {
     try {
       factory = this.contentResolver.resolveComponentFactory(component);
     } catch (err) {
-      throw new Error(('Please assign the content component'));
+      throw new Error(('Cannot find the content component. Please check if declare in entryComponents and assign to NgArchUiService'));
     }
 
     const componentRef = mainRef.createComponent(factory);
@@ -161,7 +162,7 @@ export class NgArchUiService {
     if (contextComponent.hasOwnProperty('resizing') && contextComponent.resizing
         && 'archOnResize' in contentComponent) {
       contextComponent.resizing.subscribe((data: any) => {
-        contentComponent.archOnResize(data);
+        contentComponent.archOnResize.call(contentComponent, data);
       });
     }
 
@@ -267,9 +268,25 @@ export class NgArchUiService {
   }
 }
 
-function getComponentFactoryByName(resolver: ComponentFactoryResolver, name: string) {
-  const factories = Array.from(resolver['_factories'].keys());
-  const factoryClass = <Type<any>>factories.find((x: any) => x.name === name);
-  const contextFactory = resolver.resolveComponentFactory(factoryClass);
-  return contextFactory;
-}
+// function getComponentFactoryByName(resolver: ComponentFactoryResolver, name: string) {
+//   const factories = Array.from(resolver['_factories'].keys());
+//   const factoryClass = <Type<any>>factories.find((x: any) => x.name === name);
+
+//   let contextFactory = null;
+//   if (factoryClass) {
+//     try {
+//       contextFactory = resolver.resolveComponentFactory(factoryClass);
+//     } catch (err) {
+//  console.error(`Cannot find the context component(${name}) factory. Please check if assign the component and add into entryComponents`);
+//       console.error(err);
+//     }
+//   }
+
+//   return contextFactory;
+// }
+
+// function getComponentFactoryBySelector(resolver: ComponentFactoryResolver, name: string) {
+//   const factories = Array.from(resolver['_factories'].values());
+//   const contextFactory = <ComponentFactory<any>>factories.find((x: any) => x.componentType.name === name);
+//   return contextFactory;
+// }

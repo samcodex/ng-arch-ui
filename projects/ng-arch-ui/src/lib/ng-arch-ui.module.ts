@@ -15,6 +15,9 @@ import { ArchHeaderCenterComponent } from './shared/arch-header/arch-header-cent
 import { ArchFooterComponent } from './shared/arch-footer/arch-footer.component';
 import { ArchStatusComponent } from './shared/arch-status/arch-status.component';
 import { ArchButtonBarComponent } from './components/actions/arch-button-bar/arch-button-bar.component';
+import { mapNgArchUiComponents } from './models/ng-arch-ui-config';
+import { NgArchUiComponentsToken } from './models/ng-arch-ui-options';
+import { NgArchUiService } from './services/ng-arch-ui.service';
 
 @NgModule({
   imports: [
@@ -46,6 +49,10 @@ import { ArchButtonBarComponent } from './components/actions/arch-button-bar/arc
     ArchStatusComponent,
     ArchDesktopComponent,
     ArchWindowComponent
+  ],
+   providers: [
+     NgArchUiService,
+    { provide: NgArchUiComponentsToken, useValue: mapNgArchUiComponents}
   ]
 })
 export class NgArchUiModule { }

@@ -1,4 +1,5 @@
 import { ArchUiTheme, ThemeType, ArchUiType, ArchPartType } from './ng-arch-ui-meta';
+import { InjectionToken, Type } from '@angular/core';
 
 export interface NgArchUiOptions {
   alwaysRefresh?: boolean;
@@ -39,3 +40,7 @@ export const archUiThemeConfig: ArchUiTheme = {
     }
   }
 };
+
+export type ComponentMapDefinition = { [key in ArchUiType]?: Type<any> };
+
+export const NgArchUiComponentsToken = new InjectionToken<ComponentMapDefinition>('Components');
