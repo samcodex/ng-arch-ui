@@ -14,8 +14,7 @@
     "url": "https://github.com/samcodex/ng-arch-ui/issues"
   },
   "peerDependencies": {
-    "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
-    "@angular/core": "^6.0.0-rc.0 || ^6.0.0",
-    "angular2-draggable": "^2.2.2"
+    "angular2-draggable": "^2.2.2",
+    "lodash-es": "^4.17.11"
   }
 }

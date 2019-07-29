@@ -1,22 +1,18 @@
 import { Component, OnInit, ViewContainerRef, ViewChild, Output, EventEmitter, ElementRef, Renderer2 } from '@angular/core';
 
 import { NgArchUiService } from './../../../services/ng-arch-ui.service';
-import { ArchUiComponent, ArchUiType, ArchPartTheme } from '../../../models/ng-arch-ui-meta';
+import { ArchUiType } from '../../../models/ng-arch-ui-meta';
 import { ArchUiAction } from '../../../models/ng-arch-ui-action';
 import { ArchUiContainer } from '../../../models/ng-arch-ui-model';
-import { NgArchUiElementOptions } from '../../../models/ng-arch-ui-options';
-import { applyMixins, ArchGenericLayout, ArchLayoutMixin } from '../arch-layout-mixin';
+import { ArchGenericLayout } from '../arch-generic-layout';
 
 @Component({
   templateUrl: './arch-window.component.html',
   styleUrls: ['./arch-window.component.scss']
 })
-export class ArchWindowComponent implements OnInit, ArchUiComponent, ArchGenericLayout {
+export class ArchWindowComponent extends ArchGenericLayout implements OnInit {
   uiType = ArchUiType.Window;
   archUiElement: ArchUiContainer;
-  elementOptions: NgArchUiElementOptions;
-  partThemes: ArchPartTheme;
-  defaultTheme: ArchPartTheme;
 
   // @ViewChild('window', { read: ViewContainerRef }) windowRef: ViewContainerRef;
   @ViewChild('window_main', { read: ViewContainerRef }) windowMainRef: ViewContainerRef;
@@ -28,16 +24,12 @@ export class ArchWindowComponent implements OnInit, ArchUiComponent, ArchGeneric
   private isDragging = false;
   private isStoppingDrag = false;
 
-  getDefaultTheme: () => void;
-  setHeaderStyle: () => void;
-  setViewStyle: () => void;
-  setViewPosition: (selector?: string) => void;
-
   constructor(
-    private el: ElementRef,
-    private renderer: Renderer2,
-    private ngArchUiService: NgArchUiService
+    el: ElementRef,
+    renderer: Renderer2,
+    ngArchUiService: NgArchUiService
   ) {
+    super(el, renderer, ngArchUiService);
     this.getDefaultTheme();
   }
 
@@ -116,5 +108,3 @@ export class ArchWindowComponent implements OnInit, ArchUiComponent, ArchGeneric
     this.ngArchUiService.__moveUiElementOnTop(this.archUiElement);
   }
 }
-
-applyMixins(ArchWindowComponent, [ ArchLayoutMixin ]);

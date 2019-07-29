@@ -1,40 +1,29 @@
-import { ElementRef, Renderer2 } from '@angular/core';
+import { ElementRef, Renderer2, EventEmitter, ViewContainerRef } from '@angular/core';
 import { merge } from 'lodash-es';
 
-import { ArchPartTheme, ArchPartType, ThemeType, ArchUiCss, ArchUiType } from './../../models/ng-arch-ui-meta';
+import { ArchPartTheme, ArchPartType, ThemeType, ArchUiCss, ArchUiType, ArchUiComponent } from './../../models/ng-arch-ui-meta';
 import { ArchUiElement, ArchUiContainer } from '../../models/ng-arch-ui-model';
 import { NgArchUiElementOptions } from '../../models/ng-arch-ui-options';
 import { NgArchUiService } from '../../services/ng-arch-ui.service';
 
-
-export function applyMixins(derivedCtor: any, baseCtors: any[]) {
-  baseCtors.forEach(baseCtor => {
-    Object.getOwnPropertyNames(baseCtor.prototype)
-      .forEach(name => {
-        Object.defineProperty(derivedCtor.prototype, name, Object.getOwnPropertyDescriptor(baseCtor.prototype, name));
-    });
-  });
-}
-
-export interface ArchGenericLayout {
-  getDefaultTheme(): void;
-  setHeaderStyle(): void;
-  setViewStyle(): void;
-  setViewPosition(selector?: string): void;
-}
-
 const cssKeys = ['top', 'left', 'width', 'height', 'right', 'bottom'];
 
-export class ArchLayoutMixin implements ArchGenericLayout {
+export abstract class ArchGenericLayout implements ArchUiComponent {
   uiType: ArchUiType;
   archUiElement: ArchUiElement | ArchUiContainer;
   elementOptions: NgArchUiElementOptions;
   partThemes: ArchPartTheme;
   defaultTheme: ArchPartTheme;
 
-  private el: ElementRef;
-  private renderer: Renderer2;
-  private ngArchUiService: NgArchUiService;
+  constructor(
+    protected el: ElementRef,
+    protected renderer: Renderer2,
+    protected ngArchUiService: NgArchUiService
+  ) { }
+
+  abstract resizing?: EventEmitter<any>;
+  abstract getMainContainerRef(): ViewContainerRef;
+  abstract getChildrenContainerRef(): ViewContainerRef;
 
   getDefaultTheme() {
     this.defaultTheme = this.ngArchUiService.getTheme(this.uiType);

@@ -1,22 +1,18 @@
 import { Component, OnInit, ViewChild, ViewContainerRef, Output, EventEmitter, ElementRef, Renderer2 } from '@angular/core';
 
-import { ArchUiComponent, ArchPartTheme, ArchUiType } from '../../../models/ng-arch-ui-meta';
+import { ArchUiType } from '../../../models/ng-arch-ui-meta';
 import { ArchUiElement, ArchUiContainer } from '../../../models/ng-arch-ui-model';
 import { ArchUiAction } from '../../../models/ng-arch-ui-action';
 import { NgArchUiService } from './../../../services/ng-arch-ui.service';
-import { NgArchUiElementOptions } from '../../../models/ng-arch-ui-options';
-import { ArchGenericLayout, applyMixins, ArchLayoutMixin } from '../arch-layout-mixin';
+import { ArchGenericLayout } from '../arch-generic-layout';
 
 @Component({
   templateUrl: './arch-panel.component.html',
   styleUrls: ['./arch-panel.component.scss']
 })
-export class ArchPanelComponent implements OnInit, ArchUiComponent, ArchGenericLayout {
+export class ArchPanelComponent extends ArchGenericLayout implements OnInit {
   uiType = ArchUiType.Panel;
   archUiElement: ArchUiElement | ArchUiContainer;
-  elementOptions: NgArchUiElementOptions;
-  partThemes: ArchPartTheme;
-  defaultTheme: ArchPartTheme;
 
   @ViewChild('panel_main', { read: ViewContainerRef }) panelMainRef: ViewContainerRef;
 
@@ -27,16 +23,12 @@ export class ArchPanelComponent implements OnInit, ArchUiComponent, ArchGenericL
   private isDragging = false;
   private isStoppingDrag = false;
 
-  getDefaultTheme: () => void;
-  setHeaderStyle: () => void;
-  setViewStyle: () => void;
-  setViewPosition: (selector?: string) => void;
-
   constructor(
-    private el: ElementRef,
-    private renderer: Renderer2,
-    private ngArchUiService: NgArchUiService
+    el: ElementRef,
+    renderer: Renderer2,
+    ngArchUiService: NgArchUiService
   ) {
+    super(el, renderer, ngArchUiService);
     this.getDefaultTheme();
   }
 
@@ -114,5 +106,3 @@ export class ArchPanelComponent implements OnInit, ArchUiComponent, ArchGenericL
     this.ngArchUiService.__moveUiElementOnTop(this.archUiElement);
   }
 }
-
-applyMixins(ArchPanelComponent, [ ArchLayoutMixin ]);
