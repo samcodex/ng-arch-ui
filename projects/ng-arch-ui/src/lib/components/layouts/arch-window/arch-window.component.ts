@@ -76,7 +76,6 @@ export class ArchWindowComponent extends ArchGenericLayout implements OnInit {
 
   onClick(event: Event) {
     event.stopPropagation();
-    event.preventDefault();
     if (!this.isDragging) {
       if (this.isStoppingDrag) {
         this.isStoppingDrag = false;
