@@ -8,3 +8,4 @@ export * from './lib/services/ng-arch-ui.service';
 export * from './lib/models/ng-arch-ui-options';
 export * from './lib/ng-arch-ui.interface';
 export * from './lib/ng-arch-ui.module';
+export * from './lib/components/ng-arch-ui/ng-arch-ui.component';

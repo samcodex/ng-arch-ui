@@ -13,6 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/ng-arch-ui-app",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -30,6 +31,12 @@
           },
           "configurations": {
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -134,6 +141,11 @@
           "options": {
             "tsConfig": "projects/ng-arch-ui/tsconfig.lib.json",
             "project": "projects/ng-arch-ui/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ng-arch-ui/tsconfig.lib.prod.json"
+            }
           }
         },
         "test": {
@@ -159,5 +171,8 @@
       }
     }
   },
-  "defaultProject": "ng-arch-ui-app"
+  "defaultProject": "ng-arch-ui-app",
+  "cli": {
+    "analytics": false
+  }
 }

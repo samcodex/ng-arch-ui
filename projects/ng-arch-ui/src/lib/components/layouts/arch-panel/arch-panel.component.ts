@@ -14,7 +14,7 @@ export class ArchPanelComponent extends ArchGenericLayout implements OnInit {
   uiType = ArchUiType.Panel;
   archUiElement: ArchUiElement | ArchUiContainer;
 
-  @ViewChild('panel_main', { read: ViewContainerRef }) panelMainRef: ViewContainerRef;
+  @ViewChild('panel_main', { read: ViewContainerRef, static: true }) panelMainRef: ViewContainerRef;
 
   @Output() resizing = new EventEmitter<any>();
 

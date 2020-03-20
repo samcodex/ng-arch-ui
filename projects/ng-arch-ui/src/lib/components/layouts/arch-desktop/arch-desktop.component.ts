@@ -16,8 +16,8 @@ export class ArchDesktopComponent implements OnInit, ArchUiComponent {
   partThemes: ArchPartTheme;
   defaultTheme: ArchPartTheme;
 
-  @ViewChild('desktop_main', { read: ViewContainerRef }) desktopMainRef: ViewContainerRef;
-  @ViewChild('desktop_children', { read: ViewContainerRef }) desktopChildrenRef: ViewContainerRef;
+  @ViewChild('desktop_main', { read: ViewContainerRef, static: true }) desktopMainRef: ViewContainerRef;
+  @ViewChild('desktop_children', { read: ViewContainerRef, static: true }) desktopChildrenRef: ViewContainerRef;
 
   constructor(
     private ngArchUiService: NgArchUiService,

@@ -25,9 +25,9 @@ export class NgArchUiComponent implements OnInit, OnDestroy, ArchUiComponent {
   defaultTheme: ArchPartTheme;
   archUiDock: ArchUiDock;
 
-  @ViewChild('ng_arch_ui_children', { read: ViewContainerRef }) uiChildrenRef: ViewContainerRef;
-  @ViewChild('ng_arch_ui_main', { read: ViewContainerRef }) uiMainRef: ViewContainerRef;
-  @ViewChild('ng_arch_ui_dock', { read: ViewContainerRef }) uiDockRef: ViewContainerRef;
+  @ViewChild('ng_arch_ui_children', { read: ViewContainerRef, static: true }) uiChildrenRef: ViewContainerRef;
+  @ViewChild('ng_arch_ui_main', { read: ViewContainerRef, static: true }) uiMainRef: ViewContainerRef;
+  @ViewChild('ng_arch_ui_dock', { read: ViewContainerRef, static: true }) uiDockRef: ViewContainerRef;
 
   constructor(
     private renderer: Renderer2,

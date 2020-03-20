@@ -15,8 +15,8 @@ export class ArchWindowComponent extends ArchGenericLayout implements OnInit {
   archUiElement: ArchUiContainer;
 
   // @ViewChild('window', { read: ViewContainerRef }) windowRef: ViewContainerRef;
-  @ViewChild('window_main', { read: ViewContainerRef }) windowMainRef: ViewContainerRef;
-  @ViewChild('window_children', { read: ViewContainerRef }) windowChildrenRef: ViewContainerRef;
+  @ViewChild('window_main', { read: ViewContainerRef, static: true }) windowMainRef: ViewContainerRef;
+  @ViewChild('window_children', { read: ViewContainerRef, static: true }) windowChildrenRef: ViewContainerRef;
   @Output() resizing = new EventEmitter<any>();
 
   rightButtons: ArchUiAction[] = [];
