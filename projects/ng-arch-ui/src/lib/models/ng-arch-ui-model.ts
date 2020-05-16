@@ -147,8 +147,8 @@ export abstract class ArchUiContainer extends ArchUiElement {
     this.__children.push(uiElement);
   }
 
-  traversal(that: any, callback: Function) {
-    callback.call(that, this);
+  traversal(that: any, callback: Function, ...containerParams) {
+    callback.apply(that, [this, ...containerParams]);
 
     this.__children.forEach((child: ArchUiElement) => {
       if (child instanceof ArchUiContainer) {

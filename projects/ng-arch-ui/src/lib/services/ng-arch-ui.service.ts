@@ -105,8 +105,12 @@ export class NgArchUiService {
     this.contentResolver = resolver;
   }
 
-  __render() {
-    this.uiRoot.desktop.traversal(this, this.renderArchUiElement.bind(this));
+  /**
+   * render desktop content component
+   * @param transferData - desktop transfer data
+   */
+  __render(transferData?: any) {
+    this.uiRoot.desktop.traversal(this, this.renderArchUiElement.bind(this), transferData);
   }
 
   renderArchUiElement(uiElement: ArchUiElement, transferData: object = null,

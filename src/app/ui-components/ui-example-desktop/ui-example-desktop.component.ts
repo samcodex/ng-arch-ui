@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { NgArchUiService, ArchUi, NgArchUiElementOptions, ArchPartTheme, ArchPartType, ThemeType } from 'ng-arch-ui';
 
 import { UserWindowComponent } from './../user-window/user-window.component';
@@ -22,6 +22,8 @@ const bookTheme: ArchPartTheme = {
   styleUrls: ['./ui-example-desktop.component.css']
 })
 export class UiExampleDesktopComponent implements OnInit {
+  @Input() title: string;
+  @Input() subTitle: string;
 
   constructor(
     private ngArchUiService: NgArchUiService

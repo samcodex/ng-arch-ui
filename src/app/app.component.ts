@@ -27,6 +27,10 @@ const theme: ArchUiTheme = {
 })
 export class AppComponent implements OnInit {
   title = 'NgArchUI Example';
+  desktopData = {
+    title: 'Main desktop',
+    subTitle: 'window layout example'
+  };
 
   constructor(
     private resolver: ComponentFactoryResolver,

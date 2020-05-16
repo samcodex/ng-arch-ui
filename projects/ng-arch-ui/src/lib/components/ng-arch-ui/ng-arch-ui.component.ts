@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef, ViewChild, ComponentFactoryResolver, OnDestroy, Renderer2 } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, ViewChild, ComponentFactoryResolver, OnDestroy, Renderer2, Input } from '@angular/core';
 import { cloneDeep } from 'lodash-es';
 
 import { NgArchUiService } from './../../services/ng-arch-ui.service';
@@ -18,6 +18,8 @@ const styles = { top: null, left: null, bottom: null, width: null, height: null 
   styleUrls: ['./ng-arch-ui.component.scss']
 })
 export class NgArchUiComponent implements OnInit, OnDestroy, ArchUiComponent {
+  @Input()desktopData: any;
+
   uiType = ArchUiType.UiRoot;
   archUiElement: ArchUiElement;
   elementOptions: NgArchUiElementOptions;
@@ -42,7 +44,7 @@ export class NgArchUiComponent implements OnInit, OnDestroy, ArchUiComponent {
 
   ngOnInit() {
     this.ngArchUiService.__init(this.resolver, this.uiChildrenRef);
-    this.ngArchUiService.__render();
+    this.ngArchUiService.__render(this.desktopData);
     this.archUiElement = this.ngArchUiService.archDesktop;
     this.archUiDock = this.ngArchUiService.archUiDock;
 
